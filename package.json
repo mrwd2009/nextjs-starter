@@ -6,12 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint --max-warnings=0 src",
+    "prettier": "prettier --write --ignore-unknown src",
     "prepare": "husky"
   },
   "lint-staged": {
-    "src/**/!(*.ts)": ["prettier --write --ignore-unknown src"],
-    "src/**/.{ts,tsx,js,jsx}": ["eslint --max-warnings=0 src", "prettier --write --ignore-unknown src"]
+    "src/**/!(*.{ts,tsx,js,jsx})": ["prettier --write --ignore-unknown src"],
+    "src/**/*.{ts,tsx,js,jsx}": ["eslint --max-warnings=0 src", "prettier --write --ignore-unknown src"]
   },
   "dependencies": {
     "next": "14.2.5",
