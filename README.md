@@ -14,3 +14,14 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
+## Dependency List
+- prisma
+- tanstack query
+- trpc
+- tailwind
+- shadcn/ui
+- material ui
+- zod
+- zustand
+- lucide-react
+- react-hook-form

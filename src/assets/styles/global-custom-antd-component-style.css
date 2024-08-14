@@ -1,0 +1,4 @@
+.app-ex-error-notification .ant-notification-notice-description {
+  max-height: calc(100vh - 100px);
+  overflow: auto;
+}
