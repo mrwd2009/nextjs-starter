@@ -1,5 +1,6 @@
 'use client';
 import { ThemeProvider } from 'next-themes';
+import { SYSTEM_THEME, THEME_STORAGE_KEY } from './theme-constants';
 
 export default function NextTheme({
   children,
@@ -8,8 +9,8 @@ export default function NextTheme({
     <ThemeProvider
       attribute="class"
       enableSystem={true}
-      defaultTheme="system"
-      storageKey="app-ex-v2-theme"
+      defaultTheme={SYSTEM_THEME}
+      storageKey={THEME_STORAGE_KEY}
       disableTransitionOnChange={true}
     >
       {children}

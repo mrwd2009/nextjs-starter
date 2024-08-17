@@ -4,6 +4,7 @@ import { themeSeedToken } from '@/assets/styles';
 import { useAntdStaticToolsInitializer } from '@/lib/antd-static-tools';
 import { useTheme } from 'next-themes';
 import { DARK_THEME, SYSTEM_THEME } from './theme-constants';
+import { useMounted } from '@/hooks';
 
 function AntdThemeInnerContent({
   children,
@@ -16,11 +17,13 @@ export default function AntdThemeContent({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   const { theme, resolvedTheme } = useTheme();
+  const { isMounted } = useMounted();
   return (
     <ConfigProvider
       theme={
-        theme === DARK_THEME ||
-        (theme === SYSTEM_THEME && resolvedTheme === DARK_THEME)
+        isMounted &&
+        (theme === DARK_THEME ||
+          (theme === SYSTEM_THEME && resolvedTheme === DARK_THEME))
           ? {
               token: {
                 ...themeSeedToken,
