@@ -1,7 +1,7 @@
 'use client';
 import { useThemedCustomAntdComponentStyle } from './themed-custom-antd-component-style';
 import useThemedSharedStyle from './themed-shared-style';
-import { useClassNameInRoot } from '@/hooks';
+import { useClassNameInRoot } from '@/client/hooks';
 
 export default function ThemedStyle() {
   const antdStyle = useThemedCustomAntdComponentStyle();

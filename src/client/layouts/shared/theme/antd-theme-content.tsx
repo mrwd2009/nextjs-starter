@@ -1,10 +1,10 @@
 'use client';
 import { ConfigProvider, App as AntdApp, theme as antdTheme } from 'antd';
-import { themeSeedToken } from '@/assets/styles';
-import { useAntdStaticToolsInitializer } from '@/lib/antd-static-tools';
+import { themeSeedToken } from '@/client/assets/styles';
+import { useAntdStaticToolsInitializer } from '@/client/lib/antd-static-tools';
 import { useTheme } from 'next-themes';
 import { DARK_THEME, SYSTEM_THEME } from './theme-constants';
-import { useMounted } from '@/hooks';
+import { useMounted } from '@/client/hooks';
 
 function AntdThemeInnerContent({
   children,

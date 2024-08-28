@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { Button, Dropdown, Tooltip } from 'antd';
 import Icon from '@ant-design/icons';
 import { useTheme } from 'next-themes';
-import Auto from '@/assets/images/theme-icon/os.svg';
-import Sun from '@/assets/images/theme-icon/sun.svg';
-import Moon from '@/assets/images/theme-icon/moon.svg';
+import Auto from '@/client/assets/images/theme-icon/os.svg';
+import Sun from '@/client/assets/images/theme-icon/sun.svg';
+import Moon from '@/client/assets/images/theme-icon/moon.svg';
 import { DARK_THEME, LIGHT_THEME, SYSTEM_THEME } from './theme-constants';
-import { useMounted } from '@/hooks';
+import { useMounted } from '@/client/hooks';
 
 const iconStyle = {
   fontSize: '14px',
