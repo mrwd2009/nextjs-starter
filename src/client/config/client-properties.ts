@@ -1,4 +1,4 @@
-import appProperties from '@/config/app-properties';
+import appProperties from '@/shared/config/app-properties';
 
 const clientProperties = {
   ...appProperties,

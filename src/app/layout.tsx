@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
-import { cn } from '../lib/utils';
+import { cn } from '../client/lib/utils';
 import ThemedStyle from '@/client/assets/styles/themed-style';
 import ThemeProvider from '@/client/layouts/shared/theme/theme-provider';
 import TrpcProvider from '@/client/store/services/trpc-provider';
