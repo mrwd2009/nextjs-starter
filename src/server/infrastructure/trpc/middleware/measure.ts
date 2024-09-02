@@ -14,9 +14,6 @@ const measure = _middleware(async ({ next, ctx, type, path }) => {
     });
     hasError = !result.ok;
     return result;
-  } catch (error) {
-    hasError = true;
-    throw error;
   } finally {
     const end = new Date().valueOf();
     const duration = end - start;

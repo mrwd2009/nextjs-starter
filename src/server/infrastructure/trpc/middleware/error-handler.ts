@@ -49,27 +49,21 @@ const errorHandler = _middleware(async ({ next, type, path, getRawInput }) => {
               message: cause.message,
             });
           }
-          default: {
-            throw new TRPCError({
-              code: 'INTERNAL_SERVER_ERROR',
-              message: appProperties.isProd ? 'Internal Error' : cause.message,
-            });
-          }
         }
       }
     }
+
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: appProperties.isProd ? 'Internal Error' : error.message,
+    });
   };
-  try {
-    const result = await next();
-    if (!result.ok) {
-      await processError(result.error);
-      throw result.error;
-    }
-    return result;
-  } catch (error) {
-    await processError(error as Error);
-    throw error;
+  const result = await next();
+  if (!result.ok) {
+    await processError(result.error);
+    throw result.error;
   }
+  return result;
 });
 
 export default errorHandler;

@@ -5,8 +5,10 @@ const appProperties = {
     root: basePath,
     trpc: `${basePath}api/trpc`,
   },
-  privateInfo: process.env.PRIVATE_INFO,
-  publicInfo: process.env.NEXT_PUBLIC_CLIENT_INFO,
+  allowedDomains: (process.env.APP_ALLOWED_DOMAINS || '')
+    .split(',')
+    .map((domain) => domain.trim())
+    .filter((domain) => !!domain),
 };
 
 export default appProperties;
