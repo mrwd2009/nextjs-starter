@@ -1,4 +1,5 @@
 import appProperties from '@/shared/config/app-properties';
+import { nanoid } from 'nanoid';
 import { createEdgeRouter } from 'next-connect';
 
 export type Router = ReturnType<typeof createEdgeRouter>;
@@ -22,5 +23,7 @@ export function getFullPathname(pathname: string): string {
 }
 
 export function createRouteContext(): RouteContext {
-  return {};
+  return {
+    requestId: nanoid(),
+  };
 }

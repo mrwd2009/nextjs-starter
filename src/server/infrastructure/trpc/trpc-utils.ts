@@ -13,4 +13,4 @@ export const createContext = async (
 };
 
 export const router = _router;
-export const publicProcedure = _publicProcedure.use(measure).use(errorHandler);
+export const publicProcedure = _publicProcedure.use(errorHandler).use(measure);
