@@ -1,8 +1,8 @@
 import { NextRequest } from 'next/server';
-import middlewareRouter from './shared/middleware';
+import nextMiddleware from './server/infra/next-middleware';
 
-export async function middleware(request: NextRequest) {
-  return await middlewareRouter(request);
+export function middleware(request: NextRequest) {
+  return nextMiddleware(request);
 }
 
 export const config = {
@@ -11,8 +11,15 @@ export const config = {
      * Match all request paths except for the ones starting with:
      * - _next/static (static files)
      * - _next/image (image optimization files)
-     * - favicon.ico, sitemap.xml, robots.txt (metadata files)
+     * - favicon.ico (favicon file)
      */
-    '/((?!_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt).*)',
+    '/', // Explicitly include home path
+    {
+      source: '/((?!_next/static|_next/image|favicon.ico).*)',
+      missing: [
+        { type: 'header', key: 'next-router-prefetch' },
+        { type: 'header', key: 'purpose', value: 'prefetch' },
+      ],
+    },
   ],
 };

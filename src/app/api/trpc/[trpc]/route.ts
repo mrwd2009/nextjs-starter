@@ -1,19 +1,26 @@
+import serverConfig from '@/server/config/server-config';
+import { appRouter } from '@/server/infra/trpc';
+import { nanoid } from 'nanoid';
+import { getNoCacheHeaders } from '@/server/lib/http-headers';
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
-import { appRouter } from '@/server/infrastructure/trpc';
-import serverProperties from '@/server/config/server-properties';
-import { createContext } from '@/server/infrastructure/trpc/trpc-utils';
-import { httpHeaders } from '@/shared/lib';
 
 function handler(req: Request) {
   return fetchRequestHandler({
-    endpoint: serverProperties.basePath.trpc,
+    endpoint: serverConfig.trpc.basePath,
     req,
     router: appRouter,
-    createContext,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    responseMeta(opts) {
+    createContext: async () => {
       return {
-        headers: httpHeaders.getNoCacheHeaders(),
+        requestId: nanoid(),
+      };
+    },
+    responseMeta: (opts) => {
+      const headers = getNoCacheHeaders();
+      if (opts.ctx?.requestId) {
+        headers.set('x-request-id', opts.ctx.requestId);
+      }
+      return {
+        headers,
       };
     },
   });

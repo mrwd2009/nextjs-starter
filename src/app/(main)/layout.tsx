@@ -1,12 +1,14 @@
-export default function MainLayout({
+import MainLayout from '@/layouts/MainLayout';
+import { RouteGuarder } from '@/permission';
+
+export default function MainContainerLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <div>
-      MainLayout
-      {children}
-    </div>
+    <RouteGuarder>
+      <MainLayout>{children}</MainLayout>
+    </RouteGuarder>
   );
 }
