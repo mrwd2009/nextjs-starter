@@ -1,6 +1,6 @@
 const TestServer = async () => {
   console.log('TestServer');
-  await new Promise((resolve) => setTimeout(resolve, 14000));
+  // await new Promise((resolve) => setTimeout(resolve, 14000));
   return (
     <div>
       <h1>Test Server</h1>

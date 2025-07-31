@@ -6,6 +6,8 @@ import ParamError from './param-error';
 import ForbiddenError from './forbidden-error';
 import LockError from './lock-error';
 import ExpiredTokenError from './expired-token-error';
+import BackendError from './backend-error';
+import RateLimitError from './rate-limit-error';
 
 export {
   AuthError,
@@ -16,6 +18,8 @@ export {
   ForbiddenError,
   LockError,
   ExpiredTokenError,
+  BackendError,
+  RateLimitError,
 };
 
 export default GatewayError;

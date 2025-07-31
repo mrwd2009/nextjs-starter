@@ -1,7 +1,18 @@
 import { QueryClient } from '@tanstack/react-query';
 
 function makeQueryClient() {
-  return new QueryClient({});
+  return new QueryClient({
+    defaultOptions: {
+      queries: {
+        staleTime: Infinity,
+        retry: false,
+        refetchOnWindowFocus: false,
+      },
+      mutations: {
+        retry: false,
+      },
+    },
+  });
 }
 
 let browserQueryClient: QueryClient | undefined;

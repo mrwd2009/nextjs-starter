@@ -1,16 +1,20 @@
+import '@/server/infra/initializer';
 import serverConfig from '@/server/config/server-config';
 import { appRouter } from '@/server/infra/trpc';
 import { nanoid } from 'nanoid';
 import { getNoCacheHeaders } from '@/server/lib/http-headers';
 import { fetchRequestHandler } from '@trpc/server/adapters/fetch';
+import { NextRequest } from 'next/server';
 
-function handler(req: Request) {
+function handler(req: NextRequest) {
   return fetchRequestHandler({
     endpoint: serverConfig.trpc.basePath,
     req,
     router: appRouter,
-    createContext: async () => {
+    createContext: async (opts) => {
       return {
+        ...opts,
+        req,
         requestId: nanoid(),
       };
     },

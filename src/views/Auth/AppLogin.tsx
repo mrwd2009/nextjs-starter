@@ -6,8 +6,16 @@ import brandLogo from '@/assets/images/brand.png';
 import cfexLogo from '@/assets/images/logo192.png';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import LoginStyle from './LoginStyle';
+import { useTRPC } from '@/hooks';
+import { useMutation } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 const AppLogin: FC = () => {
+  const trpc = useTRPC();
+  const router = useRouter();
+  const { mutateAsync: loginInDev, isPending } = useMutation(
+    trpc.userCenter.loginInDev.mutationOptions(),
+  );
   return (
     <div className="app-ex-auth">
       <LoginStyle />
@@ -41,7 +49,19 @@ const AppLogin: FC = () => {
               />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit" block>
+              <Button
+                type="primary"
+                htmlType="submit"
+                block
+                loading={isPending}
+                onClick={() => {
+                  loginInDev({
+                    email: 'ui-local-test@cfexcloud.com',
+                  }).then(() => {
+                    router.push('/');
+                  });
+                }}
+              >
                 Login
               </Button>
             </Form.Item>

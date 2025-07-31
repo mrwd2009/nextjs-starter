@@ -1,6 +1,11 @@
 import { createTrpcRouter, baseProcedure } from './trpc';
-import { errorHandler, measure } from './middleware';
+import { errorHandler, measure, authentication, rateLimiterHandler } from './middleware';
 
-const trpcProcedure = baseProcedure.use(measure).use(errorHandler);
+const publicTrpcProcedure = baseProcedure.use(measure).use(errorHandler).use(rateLimiterHandler);
+const protectedTrpcProcedure = baseProcedure
+  .use(measure)
+  .use(errorHandler)
+  .use(rateLimiterHandler)
+  .use(authentication);
 
-export { createTrpcRouter, trpcProcedure };
+export { createTrpcRouter, publicTrpcProcedure, protectedTrpcProcedure };

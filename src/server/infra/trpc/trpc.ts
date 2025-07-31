@@ -1,9 +1,15 @@
 import { initTRPC } from '@trpc/server';
+import { NextRequest } from 'next/server';
 
 export type CustomTrpcContext = {
   requestId?: string;
-  userEmail?: string;
-  userRoles?: string[];
+  user?: {
+    email: string;
+    name: string;
+    roles: string[];
+  };
+  req: NextRequest;
+  resHeaders: Headers;
 };
 
 const t = initTRPC.context<CustomTrpcContext>().create({

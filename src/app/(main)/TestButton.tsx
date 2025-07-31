@@ -10,6 +10,8 @@ export const TestButton: FC<{ children: ReactNode }> = ({ children }) => {
   const trpc = useTRPC();
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const result = useQuery(trpc.billingOperation.getBillingInvoiceList.queryOptions('test'));
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const result2 = useQuery(trpc.billingOperation.getBillingReportList.queryOptions('test22'));
   const [visible, setVisible] = useState(false);
   console.log(visible);
   return (
