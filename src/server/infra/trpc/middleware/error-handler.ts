@@ -5,7 +5,7 @@ import serverConfig from '@/server/config/server-config';
 import { logger } from '../../logger';
 import GatewayError from '@/server/lib/error';
 
-const errorHandler = createTrpcMiddleware(async ({ next, type, path, getRawInput }) => {
+const errorHandler = createTrpcMiddleware(async ({ next, type, path, getRawInput, ctx }) => {
   const processError = async (error: Error) => {
     if (!serverConfig.isServerProd) {
       console.error(`\x1b[38;2;255;77;79mError occurred at request: ${type} ${path}\x1b[0m`);
@@ -16,7 +16,13 @@ const errorHandler = createTrpcMiddleware(async ({ next, type, path, getRawInput
       }
       console.error(`\x1b[38;2;255;77;79m${error.stack}\x1b[0m\n`);
     } else {
-      logger.error(error, `Error occurred at request: ${type} ${path}`);
+      logger.error(
+        {
+          requestId: ctx?.requestId,
+          err: error,
+        },
+        `Error occurred at request: ${type} ${path}`,
+      );
     }
 
     if (error instanceof TRPCError) {

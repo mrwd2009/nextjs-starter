@@ -7,6 +7,7 @@ function makeQueryClient() {
         staleTime: Infinity,
         retry: false,
         refetchOnWindowFocus: false,
+        gcTime: 0,
       },
       mutations: {
         retry: false,

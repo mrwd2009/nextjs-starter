@@ -3,7 +3,8 @@
     "next/core-web-vitals",
     "next/typescript",
     "plugin:prettier/recommended",
-    "plugin:jsx-a11y/recommended"
+    "plugin:jsx-a11y/recommended",
+    "plugin:@tanstack/query/recommended"
   ],
   "plugins": ["prettier", "jsx-a11y"],
   "rules": {

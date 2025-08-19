@@ -1,12 +1,22 @@
 import { FC } from 'react';
 import LayoutFooter from '../shared/LayoutFooter';
 import MainLayoutHeader from './MainLayoutHeader';
+import BC from './BC';
+import { globalThemeToken } from '@/assets/styles';
+import MainLayoutStyle from './MainLayoutStyle';
 
 const MainLayout: FC<{ children: React.ReactNode }> = ({ children }) => {
   return (
-    <div className="relative flex min-h-svh flex-col">
+    <div className="app-ex-layout-main relative flex min-h-svh flex-col">
+      <MainLayoutStyle />
       <MainLayoutHeader />
-      <main className="flex flex-1 flex-col">{children}</main>
+      <BC />
+      <main
+        className="app-ex-layout-main__content flex flex-1 flex-col"
+        style={{ margin: `0 ${globalThemeToken.layoutHorizontalPadding}px` }}
+      >
+        {children}
+      </main>
       <LayoutFooter />
     </div>
   );

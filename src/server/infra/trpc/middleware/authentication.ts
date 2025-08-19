@@ -1,14 +1,13 @@
 import { createTrpcMiddleware } from '../trpc';
 import serverConfig from '@/server/config/server-config';
 import { AuthError } from '@/server/lib/error';
-import { verfyToken } from '@/server/lib/jwt-utils';
-import { getSecuredCookieValue } from '@/server/lib/cookie-utils';
+import { decryptJweMsg, verfyToken } from '@/server/lib/jwt-utils';
+import { getCookieValue } from '@/server/lib/cookie-utils';
 
 const authentication = createTrpcMiddleware(async ({ next, ctx }) => {
-  const token = getSecuredCookieValue({
+  const token = getCookieValue({
     headers: ctx.req.headers,
     cookieKey: serverConfig.jwt.cookieKey,
-    cookieSecret: serverConfig.cookie.secret,
   });
   if (!token) {
     throw new AuthError('Missing session token');
@@ -20,8 +19,12 @@ const authentication = createTrpcMiddleware(async ({ next, ctx }) => {
       issuer: serverConfig.jwt.issuer,
       audience: serverConfig.jwt.audience,
     });
+    const decryptedEmail = await decryptJweMsg({
+      secret: serverConfig.jwe.secret,
+      encryptedMsg: payload.userEmail as string,
+    });
     ctx.user = {
-      email: payload.userEmail as string,
+      email: decryptedEmail,
       name: payload.userName as string,
       roles: payload.userRoles as string[],
     };

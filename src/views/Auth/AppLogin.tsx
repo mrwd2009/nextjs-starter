@@ -9,6 +9,9 @@ import LoginStyle from './LoginStyle';
 import { useTRPC } from '@/hooks';
 import { useMutation } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import { getRouteInfo } from '@/config/client-routes';
+
+const billingCenterRoute = getRouteInfo('billingCenter');
 
 const AppLogin: FC = () => {
   const trpc = useTRPC();
@@ -58,7 +61,7 @@ const AppLogin: FC = () => {
                   loginInDev({
                     email: 'ui-local-test@cfexcloud.com',
                   }).then(() => {
-                    router.push('/');
+                    router.push(billingCenterRoute!.pathname);
                   });
                 }}
               >

@@ -1,3 +1,4 @@
+import { logger } from '../../logger';
 import { createTrpcMiddleware } from '../trpc';
 import serverConfig from '@/server/config/server-config';
 
@@ -35,6 +36,15 @@ const measure = createTrpcMiddleware(async ({ next, ctx, type, path }) => {
         url = `\x1b[38;2;82;196;26m${type} ${path} ${durationStr}\x1b[0m`;
       }
       console.info(`\x1b[38;2;0;204;204mResponse Time(${requestId}): \x1b[0m ${url}\n`);
+    } else {
+      logger.info(
+        {
+          requestId,
+          category: 'profiler',
+          durationMs: duration,
+        },
+        `${type} ${path}`,
+      );
     }
   }
 });

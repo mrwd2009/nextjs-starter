@@ -6,7 +6,11 @@ import { Divider, Space, theme } from 'antd';
 import brandLogo from '@/assets/images/brand.png';
 import Link from 'next/link';
 import ThemeSwitch from '../shared/theme/ThemeSwitch';
+import UserAction from './UserAction';
+import SystemMenu from './SystemMenu';
+import { getRouteInfo } from '@/config/client-routes';
 
+const billingCenterRoute = getRouteInfo('billingCenter');
 const MainLayoutHeader = () => {
   const { token } = theme.useToken();
   return (
@@ -21,14 +25,17 @@ const MainLayoutHeader = () => {
       }}
     >
       <div className="flex-none pr-[6px]">
-        <Link href="/" prefetch={false}>
+        <Link href={billingCenterRoute!.pathname} prefetch={false}>
           <Image src={brandLogo} alt="CFEX" width={100} style={{ position: 'relative' }} />
         </Link>
       </div>
-      <div className="min-w-[10px] flex-auto"></div>
+      <div className="min-w-[10px] flex-auto">
+        <SystemMenu />
+      </div>
       <div className="flex flex-none items-center">
         <Space split={<Divider type="vertical" className="mr-1 ml-0" />}>
           <ThemeSwitch />
+          <UserAction />
         </Space>
       </div>
     </header>

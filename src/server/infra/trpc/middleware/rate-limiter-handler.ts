@@ -1,22 +1,35 @@
 import { createTrpcMiddleware } from '../trpc';
 import serverConfig from '@/server/config/server-config';
 import { RateLimitError } from '@/server/lib/error';
-import { getJwtTokenPlayload } from '@/server/lib/jwt-utils';
-import { getSecuredCookieValue, setSecuredCookieValue } from '@/server/lib/cookie-utils';
+import { decryptJweMsg, getJwtTokenPlayload } from '@/server/lib/jwt-utils';
+import {
+  getCookieValue,
+  getSecuredCookieValue,
+  setSecuredCookieValue,
+} from '@/server/lib/cookie-utils';
 import { nanoid } from 'nanoid';
 import rateLimiter from '../../rate-limiter/rate-limiter';
 import { RateLimiterRes } from 'rate-limiter-flexible';
 
 const rateLimiterHandler = createTrpcMiddleware(async ({ next, ctx }) => {
   let uuid = '';
-  const token = getSecuredCookieValue({
+  const token = getCookieValue({
     headers: ctx.req.headers,
     cookieKey: serverConfig.jwt.cookieKey,
-    cookieSecret: serverConfig.cookie.secret,
   });
   const payload = getJwtTokenPlayload(token);
   if (payload?.userEmail) {
-    uuid = payload.userEmail as string;
+    try {
+      const decryptedEmail = await decryptJweMsg({
+        secret: serverConfig.jwe.secret,
+        encryptedMsg: payload.userEmail as string,
+      });
+      uuid = decryptedEmail;
+    } catch (error) {
+      if (!serverConfig.isServerProd) {
+        throw error;
+      }
+    }
   } else {
     const cookieId = getSecuredCookieValue({
       headers: ctx.req.headers,

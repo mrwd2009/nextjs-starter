@@ -36,11 +36,25 @@ const serverConfig = {
       public: envObj.APP_JWT_SECRET_PUBLIC!,
     },
   },
+  jwe: {
+    secret: envObj.APP_JWE_SECRET!,
+  },
   redis: {
     main: {
       url: envObj.APP_MAIN_REDIS_URL || 'redis://localhost:6379',
       prefix: `cfex-apps-partner-portal-${appEnv}-main-`,
       expired: 3600,
+    },
+  },
+  datasource: {
+    main: {
+      type: 'mysql' as const,
+      poolSize: 10,
+      host: envObj.APP_MAIN_DB_HOST!,
+      port: 3306,
+      username: envObj.APP_MAIN_DB_USER!,
+      password: envObj.APP_MAIN_DB_PASSWORD!,
+      database: envObj.APP_MAIN_DB_NAME!,
     },
   },
 };

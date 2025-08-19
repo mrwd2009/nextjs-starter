@@ -30,13 +30,19 @@ export const getSecuredCookieValue = (params: {
   return isValid ? token : null;
 };
 
+export const getCookieValue = (params: { headers: Headers; cookieKey: string }) => {
+  const { headers, cookieKey } = params;
+  const cookies = parse(headers.get('cookie') || '');
+  return cookies[cookieKey];
+};
+
 export const setSecuredCookieValue = (params: {
   headers: Headers;
   cookieKey: string;
   cookieSecret: string;
   value: string;
   secure: boolean;
-  maxAge: number;
+  maxAge?: number;
   path: string;
 }) => {
   const { headers, cookieKey, cookieSecret, value, secure, maxAge, path } = params;
@@ -45,6 +51,26 @@ export const setSecuredCookieValue = (params: {
   headers.append(
     'Set-Cookie',
     serialize(cookieKey, `${value}.${tokenSig}`, {
+      httpOnly: true,
+      secure,
+      maxAge,
+      path,
+    }),
+  );
+};
+
+export const setCookieValue = (params: {
+  headers: Headers;
+  cookieKey: string;
+  value: string;
+  secure: boolean;
+  maxAge?: number;
+  path: string;
+}) => {
+  const { headers, cookieKey, value, secure, maxAge, path } = params;
+  headers.append(
+    'Set-Cookie',
+    serialize(cookieKey, value, {
       httpOnly: true,
       secure,
       maxAge,

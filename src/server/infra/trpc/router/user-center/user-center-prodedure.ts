@@ -3,15 +3,15 @@ import { publicTrpcProcedure, protectedTrpcProcedure } from '../../trpc-utils';
 import { getIocComponent } from '@/server/lib/ioc';
 import { UserCenterUseCase } from '@/server/core/usecase/user-center/user-center-use-case';
 import serverConfig from '@/server/config/server-config';
-import { setSecuredCookieValue } from '@/server/lib/cookie-utils';
+import { setCookieValue } from '@/server/lib/cookie-utils';
 
 const userCenterUseCase = getIocComponent<UserCenterUseCase>('UserCenterUseCase');
 
-export const getUserInfo = protectedTrpcProcedure.query(async () => {
+export const getUserInfo = protectedTrpcProcedure.query(async ({ ctx }) => {
   return {
-    userEmail: 'test@test.com',
-    userName: 'Test User',
-    userRoles: ['Admin'],
+    userEmail: ctx.user?.email,
+    userName: ctx.user?.name,
+    userRoles: ctx.user?.roles,
   };
 });
 
@@ -29,10 +29,9 @@ export const loginInDev = publicTrpcProcedure
       userName: 'UI Local Tester',
       userRoles: ['Admin'],
     });
-    setSecuredCookieValue({
+    setCookieValue({
       headers: ctx.resHeaders,
       cookieKey: serverConfig.jwt.cookieKey,
-      cookieSecret: serverConfig.cookie.secret,
       value: token,
       secure: serverConfig.isServerProd,
       maxAge: serverConfig.jwt.expireHour * 3600,
@@ -40,3 +39,15 @@ export const loginInDev = publicTrpcProcedure
     });
     return true;
   });
+
+export const logoutUser = protectedTrpcProcedure.mutation(async ({ ctx }) => {
+  setCookieValue({
+    headers: ctx.resHeaders,
+    cookieKey: serverConfig.jwt.cookieKey,
+    value: '',
+    secure: serverConfig.isServerProd,
+    maxAge: 0,
+    path: serverConfig.client.basePath,
+  });
+  return true;
+});
